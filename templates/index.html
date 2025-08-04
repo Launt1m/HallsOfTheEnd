@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Halls-End</title>
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <style>
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(6px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal.show {
+      display: flex;
+    }
+    .modal-content {
+      background: rgba(255 255 255 / 0.05);
+      border-radius: 15px;
+      width: 80vw;
+      max-width: 700px;
+      max-height: 80vh;
+      overflow: hidden;
+      display: flex;
+      box-shadow: 0 0 40px #555;
+      position: relative;
+      color: white;
+      font-family: 'Orbitron', sans-serif;
+    }
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 25px;
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      user-select: none;
+      line-height: 1;
+      z-index: 10;
+    }
+    .modal-close:hover {
+      color: #ccc;
+    }
+    .wiki-left {
+      width: 35%;
+      background: rgba(255 255 255 / 0.1);
+      padding: 25px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      overflow-y: auto;
+      text-align: left;
+    }
+    .wiki-left strong {
+      display: block;
+      font-weight: 700;
+      font-size: 20px;
+      margin: 15px 0 5px 0;
+      cursor: default;
+    }
+    .wiki-left .clickable {
+      font-weight: 400;
+      font-size: 17px;
+      margin-left: 15px;
+      padding: 4px 6px;
+      border-radius: 5px;
+      cursor: pointer;
+      color: #ddd;
+      user-select: none;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .wiki-left .clickable:hover,
+    .wiki-left .clickable.active {
+      background-color: rgba(255 255 255 / 0.15);
+      color: #fff;
+    }
+    .wiki-right {
+      width: 65%;
+      padding: 30px 40px;
+      overflow-y: auto;
+      font-size: 18px;
+      line-height: 1.4;
+      user-select: text;
+      min-height: 300px;
+    }
+    .wiki-right p {
+      margin-bottom: 15px;
+      color: #ccc;
+    }
+
+    .wiki-left::-webkit-scrollbar {
+      width: 6px;
+    }
+    .wiki-left::-webkit-scrollbar-thumb {
+      background-color: rgba(255,255,255,0.2);
+      border-radius: 3px;
+    }
+
+    @media (max-width: 600px) {
+      .modal-content {
+        flex-direction: column;
+        width: 90vw;
+        height: 80vh;
+      }
+      .wiki-left, .wiki-right {
+        width: 100%;
+        height: 50%;
+        padding: 15px 20px;
+      }
+      .wiki-left {
+        overflow-y: auto;
+      }
+      .wiki-right {
+        overflow-y: auto;
+        padding-top: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <button id="wikiBtn" class="wiki-btn" type="button">Вики</button>
+    <div class="nav-right">
+      <a href="https://t.me/Halls_End" target="_blank" rel="noopener noreferrer">
+        <img src="/static/img/telegram.png" alt="Telegram" class="tg-icon" />
+      </a>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <h1 class="main-title">HALLS OF THE END</h1>
+    <p class="subtitle">Хаус по minecraft, ознакомся со всей информацией на Вики.</p>
+    <button class="start-btn" onclick="window.open('https://t.me/HALLSoftheEND_bot', '_blank')">Начать играть</button>
+  </div>
+
+  <div class="modal" id="wikiModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-content" tabindex="0">
+      <button class="modal-close" id="closeModal" aria-label="Закрыть окно">&times;</button>
+
+      <div class="wiki-left" role="list">
+        <strong>Начало игры</strong>
+        <div class="clickable active" data-file="startGame.html" role="listitem" tabindex="0">Новостные ТГ</div>
+
+        <strong>Как начать играть</strong>
+        <div class="clickable" data-file="howToPlay.html" role="listitem" tabindex="0">Начало игры</div>
+
+        <strong>Частые вопросы</strong>
+        <div class="clickable" data-file="faqServer.html" role="listitem" tabindex="0">У меня не заходит на сервер</div>
+
+        <strong>Правила</strong>
+        <div class="clickable" data-file="rulesGeneral.html" role="listitem" tabindex="0">Общие положения</div>
+        <div class="clickable" data-file="rulesComm.html" role="listitem" tabindex="0">Общение</div>
+
+        <strong>Игровой процесс</strong>
+        <div class="clickable" data-file="gameCrafts.html" role="listitem" tabindex="0">Кастомные крафты</div>
+        <div class="clickable" data-file="gameCommands.html" role="listitem" tabindex="0">Команды сервера</div>
+        <div class="clickable" data-file="gamePenalties.html" role="listitem" tabindex="0">Штрафы</div>
+		<strong>Ресты</strong>
+		<div class="clickable" data-file="rest.html" role="listitem" tabindex="0">Ресты</div>
+      </div>
+
+      <div class="wiki-right" id="wikiContent" tabindex="0" aria-live="polite">
+        <p>Загрузка...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const wikiBtn = document.getElementById('wikiBtn');
+    const modal = document.getElementById('wikiModal');
+    const closeModal = document.getElementById('closeModal');
+    const wikiLeft = document.querySelector('.wiki-left');
+    const wikiContent = document.getElementById('wikiContent');
+    const clickableItems = wikiLeft.querySelectorAll('.clickable');
+
+    wikiBtn.addEventListener('click', () => {
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden', 'false');
+      wikiContent.focus();
+      const first = wikiLeft.querySelector('.clickable.active') || wikiLeft.querySelector('.clickable');
+      if(first) {
+        loadContent(first.dataset.file);
+      }
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden', 'true');
+      wikiBtn.focus();
+    });
+
+    clickableItems.forEach(item => {
+      item.addEventListener('click', () => {
+        setActive(item);
+        loadContent(item.dataset.file);
+      });
+      item.addEventListener('keydown', (e) => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setActive(item);
+          loadContent(item.dataset.file);
+        }
+      });
+    });
+
+    function setActive(el) {
+      clickableItems.forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+  async function loadContent(file) {
+    wikiContent.innerHTML = '<p>Загрузка...</p>';
+    try {
+      const response = await fetch(`/wiki/${file}`);
+      if (!response.ok) throw new Error('Ошибка загрузки');
+      const html = await response.text();
+      wikiContent.innerHTML = html;
+    } catch (e) {
+      wikiContent.innerHTML = '<p style="color:red;">Не удалось загрузить информацию.</p>';
+    }
+  }
+
+    modal.addEventListener('click', e => {
+      if (e.target === modal) {
+        closeModal.click();
+      }
+    });
+
+    window.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modal.classList.contains('show')) {
+        closeModal.click();
+      }
+    });
+  </script>
+</body>
+</html>
