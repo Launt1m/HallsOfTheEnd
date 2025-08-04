@@ -16,4 +16,5 @@ def wiki_files(filename):
         abort(404)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+
+    app.run(debug=True, host:'0.0.0.0', port=inv(os.environ.get("PORT", 8000)))
