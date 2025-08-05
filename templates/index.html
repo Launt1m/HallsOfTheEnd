@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Halls-End</title>
   <link rel="stylesheet" href="/static/css/style.css" />
-
-  <!-- 🎆 CDN для конфетти -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
   <style>
     .modal {
       display: none;
@@ -128,22 +124,6 @@
         padding-top: 0;
       }
     }
-
-    /* 🎉 Стиль для поздравления */
-    .birthday-greeting {
-      position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 36px;
-      font-weight: bold;
-      color: #fff;
-      text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
-      z-index: 9999;
-      opacity: 0;
-      transition: opacity 2s ease;
-      pointer-events: none;
-    }
   </style>
 </head>
 <body>
@@ -161,9 +141,6 @@
     <p class="subtitle">Хаус по minecraft, ознакомся со всей информацией на Вики.</p>
     <button class="start-btn" onclick="window.open('https://t.me/HALLSoftheEND_bot', '_blank')">Начать играть</button>
   </div>
-
-  <!-- 🎉 Поздравление -->
-  <div id="birthdayGreeting" class="birthday-greeting">С днём рождения Владелица :)</div>
 
   <div class="modal" id="wikiModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-content" tabindex="0">
@@ -187,8 +164,8 @@
         <div class="clickable" data-file="gameCrafts.html" role="listitem" tabindex="0">Кастомные крафты</div>
         <div class="clickable" data-file="gameCommands.html" role="listitem" tabindex="0">Команды сервера</div>
         <div class="clickable" data-file="gamePenalties.html" role="listitem" tabindex="0">Штрафы</div>
-        <strong>Ресты</strong>
-        <div class="clickable" data-file="rest.html" role="listitem" tabindex="0">Ресты</div>
+		<strong>Ресты</strong>
+		<div class="clickable" data-file="rest.html" role="listitem" tabindex="0">Ресты</div>
       </div>
 
       <div class="wiki-right" id="wikiContent" tabindex="0" aria-live="polite">
@@ -198,42 +175,6 @@
   </div>
 
   <script>
-    // 🎆 Фейерверк + надпись
-    window.addEventListener('load', () => {
-      const duration = 5000;
-      const end = Date.now() + duration;
-
-      (function frame() {
-        confetti({
-          particleCount: 4,
-          angle: 60,
-          spread: 55,
-          origin: { x: 0 },
-          colors: ['#ff69b4', '#ffd700', '#ffffff']
-        });
-        confetti({
-          particleCount: 4,
-          angle: 120,
-          spread: 55,
-          origin: { x: 1 },
-          colors: ['#ff69b4', '#ffd700', '#ffffff']
-        });
-
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
-        }
-      })();
-
-      const greeting = document.getElementById('birthdayGreeting');
-      setTimeout(() => {
-        greeting.style.opacity = '1';
-      }, 500);
-      setTimeout(() => {
-        greeting.style.opacity = '0';
-      }, 8500);
-    });
-
-    // 📚 Wiki модалка
     const wikiBtn = document.getElementById('wikiBtn');
     const modal = document.getElementById('wikiModal');
     const closeModal = document.getElementById('closeModal');
@@ -276,17 +217,17 @@
       el.classList.add('active');
     }
 
-    async function loadContent(file) {
-      wikiContent.innerHTML = '<p>Загрузка...</p>';
-      try {
-        const response = await fetch(`/wiki/${file}`);
-        if (!response.ok) throw new Error('Ошибка загрузки');
-        const html = await response.text();
-        wikiContent.innerHTML = html;
-      } catch (e) {
-        wikiContent.innerHTML = '<p style="color:red;">Не удалось загрузить информацию.</p>';
-      }
+  async function loadContent(file) {
+    wikiContent.innerHTML = '<p>Загрузка...</p>';
+    try {
+      const response = await fetch(`/wiki/${file}`);
+      if (!response.ok) throw new Error('Ошибка загрузки');
+      const html = await response.text();
+      wikiContent.innerHTML = html;
+    } catch (e) {
+      wikiContent.innerHTML = '<p style="color:red;">Не удалось загрузить информацию.</p>';
     }
+  }
 
     modal.addEventListener('click', e => {
       if (e.target === modal) {
