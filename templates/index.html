@@ -23,15 +23,15 @@
     .modal-content {
       background: rgba(255 255 255 / 0.05);
       border-radius: 15px;
-      width: 80vw;
-      max-width: 700px;
-      max-height: 80vh;
+      width: 85vw;
+      height: 80vh;
+      max-width: 1000px;
       overflow: hidden;
       display: flex;
       box-shadow: 0 0 40px #555;
       position: relative;
       color: white;
-      font-family: 'Orbitron', sans-serif;
+      font-family: 'Montserrat', sans-serif;
     }
     .modal-close {
       position: absolute;
@@ -66,6 +66,7 @@
       font-size: 20px;
       margin: 15px 0 5px 0;
       cursor: default;
+      letter-spacing: 0.5px;
     }
     .wiki-left .clickable {
       font-weight: 400;
@@ -77,6 +78,7 @@
       color: #ddd;
       user-select: none;
       transition: background-color 0.3s, color 0.3s;
+      letter-spacing: 0.3px;
     }
     .wiki-left .clickable:hover,
     .wiki-left .clickable.active {
@@ -88,21 +90,87 @@
       padding: 30px 40px;
       overflow-y: auto;
       font-size: 18px;
-      line-height: 1.4;
+      line-height: 1.6;
       user-select: text;
-      min-height: 300px;
     }
     .wiki-right p {
       margin-bottom: 15px;
       color: #ccc;
+      letter-spacing: 0.3px;
+    }
+    .wiki-right h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+    .wiki-right h3 {
+      font-size: 20px;
+      margin: 20px 0 15px 0;
+      color: #eee;
+      letter-spacing: 0.4px;
+    }
+    
+    .wiki-image {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 10px;
+      margin: 25px 0;
+      border: 2px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+    
+    .craft-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      margin: 30px 0;
+    }
+    .craft-item {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 0;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+    .craft-title {
+      font-size: 24px;
+      margin: 25px 25px 15px 25px;
+      color: #fff;
+      letter-spacing: 0.3px;
+    }
+    .craft-description {
+      margin: 0 25px 25px 25px;
+      font-size: 17px;
+      color: #ccc;
+      line-height: 1.5;
     }
 
-    .wiki-left::-webkit-scrollbar {
-      width: 6px;
+    .wiki-left::-webkit-scrollbar,
+    .wiki-right::-webkit-scrollbar {
+      width: 10px;
     }
-    .wiki-left::-webkit-scrollbar-thumb {
-      background-color: rgba(255,255,255,0.2);
-      border-radius: 3px;
+    .wiki-left::-webkit-scrollbar-track,
+    .wiki-right::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 5px;
+    }
+    .wiki-left::-webkit-scrollbar-thumb,
+    .wiki-right::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 5px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    .wiki-left::-webkit-scrollbar-thumb:hover,
+    .wiki-right::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .wiki-left,
+    .wiki-right {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.05);
     }
 
     @media (max-width: 600px) {
@@ -122,6 +190,9 @@
       .wiki-right {
         overflow-y: auto;
         padding-top: 0;
+      }
+      .wiki-image {
+        max-width: 100%;
       }
     }
   </style>
@@ -164,8 +235,9 @@
         <div class="clickable" data-file="gameCrafts.html" role="listitem" tabindex="0">Кастомные крафты</div>
         <div class="clickable" data-file="gameCommands.html" role="listitem" tabindex="0">Команды сервера</div>
         <div class="clickable" data-file="gamePenalties.html" role="listitem" tabindex="0">Штрафы</div>
-		<strong>Ресты</strong>
-		<div class="clickable" data-file="rest.html" role="listitem" tabindex="0">Ресты</div>
+    
+        <strong>Ресты</strong>
+        <div class="clickable" data-file="rest.html" role="listitem" tabindex="0">Ресты</div>
       </div>
 
       <div class="wiki-right" id="wikiContent" tabindex="0" aria-live="polite">
@@ -217,17 +289,17 @@
       el.classList.add('active');
     }
 
-  async function loadContent(file) {
-    wikiContent.innerHTML = '<p>Загрузка...</p>';
-    try {
-      const response = await fetch(`/wiki/${file}`);
-      if (!response.ok) throw new Error('Ошибка загрузки');
-      const html = await response.text();
-      wikiContent.innerHTML = html;
-    } catch (e) {
-      wikiContent.innerHTML = '<p style="color:red;">Не удалось загрузить информацию.</p>';
+    async function loadContent(file) {
+      wikiContent.innerHTML = '<p>Загрузка...</p>';
+      try {
+        const response = await fetch(`/wiki/${file}`);
+        if (!response.ok) throw new Error('Ошибка загрузки');
+        const html = await response.text();
+        wikiContent.innerHTML = html;
+      } catch (e) {
+        wikiContent.innerHTML = '<p style="color:red;">Не удалось загрузить информацию.</p>';
+      }
     }
-  }
 
     modal.addEventListener('click', e => {
       if (e.target === modal) {
@@ -239,6 +311,35 @@
       if (e.key === 'Escape' && modal.classList.contains('show')) {
         closeModal.click();
       }
+    });
+    
+    const customCraftsContent = `
+      <h2>Кастомные крафты</h2>
+      <p>На нашем сервере добавлены уникальные рецепты крафта, которые расширяют игровые возможности.</p>
+      
+      <div class="craft-grid">
+        <div class="craft-item">
+          <h3 class="craft-title">Портативный Ender Chest</h3>
+          <img src="/static/img/crafts/ender_chest.png" alt="Крафт портативного Ender Chest" class="wiki-image">
+          <p class="craft-description">Компактный Ender Chest, который можно носить с собой. Для крафта требуется: 4 обсидиана, 4 эндер-жемчуга и 1 сундук.</p>
+        </div>
+        
+        <div class="craft-item">
+          <h3 class="craft-title">Улучшенная кирка</h3>
+          <img src="/static/img/crafts/upgraded_pickaxe.png" alt="Крафт улучшенной кирки" class="wiki-image">
+          <p class="craft-description">Кирка с увеличенной прочностью и скоростью копания. Для крафта требуется: 3 алмаза, 2 незеритовых слитка и 2 палки.</p>
+        </div>
+        
+        <div class="craft-item">
+          <h3 class="craft-title">Телепортационный жезл</h3>
+          <img src="/static/img/crafts/teleport_wand.png" alt="Крафт телепортационного жезла" class="wiki-image">
+          <p class="craft-description">Жезл для кратковременных телепортаций. Для крафта требуется: 2 эндер-жемчуга, 1 алмаз и 6 палок.</p>
+        </div>
+      </div>
+    `;
+    
+    document.querySelector('[data-file="gameCrafts.html"]').addEventListener('click', function() {
+      wikiContent.innerHTML = customCraftsContent;
     });
   </script>
 </body>
