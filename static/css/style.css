@@ -19,7 +19,6 @@ body {
   position: relative;
 }
 
-/* Вернул затемнение фона */
 body::before {
   content: "";
   position: fixed;
@@ -28,22 +27,20 @@ body::before {
   height: 100%;
   background: url('../img/background.jpg') no-repeat center center fixed;
   background-size: cover;
-  filter: brightness(60%) blur(8px); /* Вернул затемнение */
+  filter: brightness(60%) blur(8px); 
   z-index: -2;
 }
 
-/* Добавил легкий оверлей */
 .background-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3); /* Легкое затемнение */
+  background: rgba(0, 0, 0, 0.3); 
   z-index: -1;
 }
 
-/* Вернул исходную верхнюю панель */
 .top-bar {
   position: fixed;
   top: 0;
@@ -103,7 +100,6 @@ body::before {
   transform: scale(1.3) rotate(8deg);
 }
 
-/* Главный контент с красивым текстом */
 .main-content {
   text-align: center;
   margin-top: 120px;
@@ -118,24 +114,22 @@ body::before {
 
 .main-title {
   font-size: 48px;
-  font-weight: 900; /* Очень жирный шрифт */
+  font-weight: 900; 
   margin-bottom: 15px;
   letter-spacing: 2px;
-  text-shadow: 0 0 10px #fff; /* Свечение как в оригинале */
+  text-shadow: 0 0 10px #fff; 
 }
 
-/* Градиент текста с ОЧЕНЬ жирным шрифтом */
 .title-gradient {
   background: linear-gradient(135deg, #fff 0%, #b78cc0 30%, #572060 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: 0 0 30px rgba(183, 140, 192, 0.5);
-  font-weight: 900; /* Очень жирный шрифт */
-  font-size: 48px; /* Явно указываем размер */
+  font-weight: 900;
+  font-size: 48px; 
 }
 
-/* Декорация ------*------ */
 .title-decoration {
   display: flex;
   align-items: center;
@@ -165,7 +159,6 @@ body::before {
   color: #ddd;
 }
 
-/* Кнопка с анимацией переливания */
 .start-btn {
   position: relative;
   padding: 15px 40px;
@@ -204,7 +197,6 @@ body::before {
   box-shadow: 0 5px 15px rgba(87, 32, 96, 0.4);
 }
 
-/* Модальное окно */
 .modal {
   display: none;
   position: fixed;
@@ -277,7 +269,7 @@ body::before {
   }
   
   .title-gradient {
-    font-size: 36px; /* Для мобильных */
+    font-size: 36px; 
   }
 
   .subtitle {
@@ -293,3 +285,4 @@ body::before {
     max-width: 300px;
   }
 }
+
