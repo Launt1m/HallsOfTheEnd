@@ -6,6 +6,7 @@
   <title>Halls-End</title>
   <link rel="stylesheet" href="/static/css/style.css" />
   <style>
+    /* Стили для вики БЕЗ свечения */
     .modal {
       display: none;
       position: fixed;
@@ -28,7 +29,6 @@
       max-width: 1000px;
       overflow: hidden;
       display: flex;
-      box-shadow: 0 0 40px #555;
       position: relative;
       color: white;
       font-family: 'Montserrat', sans-serif;
@@ -117,7 +117,6 @@
       border-radius: 10px;
       margin: 25px 0;
       border: 2px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
     }
     
     .craft-grid {
@@ -198,6 +197,10 @@
   </style>
 </head>
 <body>
+  <!-- Вернул исходный фон -->
+  <div class="background-overlay"></div>
+
+  <!-- Упрощенная верхняя панель -->
   <div class="top-bar">
     <button id="wikiBtn" class="wiki-btn" type="button">Вики</button>
     <div class="nav-right">
@@ -207,12 +210,28 @@
     </div>
   </div>
 
+  <!-- Главный контент с красивым текстом и декорацией -->
   <div class="main-content">
-    <h1 class="main-title">HALLS OF THE END</h1>
+    <div class="title-container">
+      <h1 class="main-title">
+        <span class="title-gradient">HALLS OF THE END</span>
+      </h1>
+      <div class="title-decoration">
+        <div class="decoration-line"></div>
+        <div class="decoration-dot"></div>
+        <div class="decoration-line"></div>
+      </div>
+    </div>
+    
     <p class="subtitle">Хаус по minecraft, ознакомся со всей информацией на Вики.</p>
-    <button class="start-btn" onclick="window.open('https://t.me/HALLSoftheEND_bot', '_blank')">Начать играть</button>
+    
+    <button class="start-btn" onclick="window.open('https://t.me/HALLSoftheEND_bot', '_blank')">
+      <span class="btn-glow"></span>
+      <span class="btn-content">Начать играть</span>
+    </button>
   </div>
 
+  <!-- Модальное окно вики без изменений -->
   <div class="modal" id="wikiModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-content" tabindex="0">
       <button class="modal-close" id="closeModal" aria-label="Закрыть окно">&times;</button>
@@ -247,6 +266,7 @@
   </div>
 
   <script>
+    // JavaScript код без изменений
     const wikiBtn = document.getElementById('wikiBtn');
     const modal = document.getElementById('wikiModal');
     const closeModal = document.getElementById('closeModal');
