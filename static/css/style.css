@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
 
 * {
   margin: 0;
@@ -19,6 +19,7 @@ body {
   position: relative;
 }
 
+/* Вернул затемнение фона */
 body::before {
   content: "";
   position: fixed;
@@ -27,10 +28,22 @@ body::before {
   height: 100%;
   background: url('../img/background.jpg') no-repeat center center fixed;
   background-size: cover;
-  filter: brightness(30%) blur(8px);
+  filter: brightness(60%) blur(8px); /* Вернул затемнение */
   z-index: -2;
 }
 
+/* Добавил легкий оверлей */
+.background-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3); /* Легкое затемнение */
+  z-index: -1;
+}
+
+/* Вернул исходную верхнюю панель */
 .top-bar {
   position: fixed;
   top: 0;
@@ -55,7 +68,6 @@ body::before {
   position: relative;
   padding: 5px 10px;
   outline: none;
-  box-shadow: none !important;
 }
 
 .wiki-btn::after {
@@ -68,7 +80,6 @@ body::before {
   background-color: white;
   border-radius: 2px;
   transition: width 0.3s ease;
-  box-shadow: none !important;
 }
 
 .wiki-btn:hover::after {
@@ -92,6 +103,7 @@ body::before {
   transform: scale(1.3) rotate(8deg);
 }
 
+/* Главный контент с красивым текстом */
 .main-content {
   text-align: center;
   margin-top: 120px;
@@ -100,11 +112,51 @@ body::before {
   animation: fadeInUp 1s ease forwards;
 }
 
+.title-container {
+  margin-bottom: 30px;
+}
+
 .main-title {
   font-size: 48px;
-  font-weight: 700;
-  text-shadow: 0 0 10px #fff; /* свечение у текста */
-  margin-bottom: 10px;
+  font-weight: 900; /* Очень жирный шрифт */
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #fff; /* Свечение как в оригинале */
+}
+
+/* Градиент текста с ОЧЕНЬ жирным шрифтом */
+.title-gradient {
+  background: linear-gradient(135deg, #fff 0%, #b78cc0 30%, #572060 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 30px rgba(183, 140, 192, 0.5);
+  font-weight: 900; /* Очень жирный шрифт */
+  font-size: 48px; /* Явно указываем размер */
+}
+
+/* Декорация ------*------ */
+.title-decoration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.decoration-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(183, 140, 192, 0.5), transparent);
+}
+
+.decoration-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #b78cc0;
+  box-shadow: 0 0 10px #b78cc0;
 }
 
 .subtitle {
@@ -113,7 +165,9 @@ body::before {
   color: #ddd;
 }
 
+/* Кнопка с анимацией переливания */
 .start-btn {
+  position: relative;
   padding: 15px 40px;
   font-size: 20px;
   font-weight: bold;
@@ -122,13 +176,35 @@ body::before {
   background: linear-gradient(135deg, #b78cc0, #572060);
   color: white;
   cursor: pointer;
-  transition: opacity 0.3s;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.btn-glow {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.7s ease;
+}
+
+.start-btn:hover .btn-glow {
+  left: 100%;
+}
+
+.btn-content {
+  position: relative;
+  z-index: 1;
 }
 
 .start-btn:hover {
-  opacity: 0.85;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(87, 32, 96, 0.4);
 }
 
+/* Модальное окно */
 .modal {
   display: none;
   position: fixed;
@@ -146,13 +222,12 @@ body::before {
 }
 
 .modal-content {
-  width: 400px;      /* сброс любых ограничений */
-  height: 500px;     /* сброс любых ограничений */
-  max-width: none !important;  /* убираем максимум */
-  max-height: none !important; /* убираем максимум */
-  min-width: 0 !important;     /* убираем минимум */
-  min-height: 0 !important;    /* убираем минимум */
-  box-shadow: none !important;    
+  width: 400px;
+  height: 500px;
+  max-width: none !important;
+  max-height: none !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
 }
 
 .wiki-left {
@@ -164,7 +239,6 @@ body::before {
   flex-direction: column;
   gap: 12px;
   overflow-y: auto;
-  box-shadow: none !important;
 }
 
 .wiki-right {
@@ -175,8 +249,6 @@ body::before {
   line-height: 1.6;
   user-select: text;
   background: transparent;
-  text-shadow: none;
-  box-shadow: none !important;
 }
 
 .modal-close {
@@ -201,11 +273,12 @@ body::before {
 
 @media (max-width: 480px) {
   .main-title {
-    font-size: 48px;
-    font-weight: 700;
-    text-shadow: 0 0 10px #fff; 
-    margin-bottom: 10px;
-}
+    font-size: 36px;
+  }
+  
+  .title-gradient {
+    font-size: 36px; /* Для мобильных */
+  }
 
   .subtitle {
     font-size: 16px;
@@ -214,5 +287,9 @@ body::before {
   .start-btn {
     font-size: 16px;
     padding: 12px 28px;
+  }
+  
+  .title-decoration {
+    max-width: 300px;
   }
 }
